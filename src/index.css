@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Anton", "Arial Narrow", "Impact", sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --color-paper: #faf5ea;
+  --color-paper-deep: #f1e9d7;
+  --color-card: #fffdf7;
+  --color-ink: #141c2c;
+  --color-ink-deep: #0b1120;
+  --color-navy: #1c2b4b;
+  --color-navy-deep: #131f38;
+  --color-sun: #ffc61a;
+  --color-sun-deep: #d99e00;
+  --color-flame: #ee4723;
+  --color-flame-deep: #c23718;
+  --color-pine: #1e7a68;
+  --color-sky: #2e6fe0;
+  --color-berry: #d64571;
+  --color-tang: #f4741b;
+  --color-leaf: #5b913b;
+  --color-grape: #7a4fd0;
+
+  --shadow-hard: 6px 6px 0 0 #141c2c;
+  --shadow-hard-sm: 4px 4px 0 0 #141c2c;
+  --shadow-hard-xs: 3px 3px 0 0 #141c2c;
+  --shadow-hard-sun: 5px 5px 0 0 #ffc61a;
+  --shadow-hard-paper: 6px 6px 0 0 #faf5ea;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-flame);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Keep form text legible when the browser autofills fields */
+input:-webkit-autofill,
+select:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-ink);
+  caret-color: var(--color-ink);
+  box-shadow: 0 0 0 1000px var(--color-paper) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ---------- Textures ---------- */
+.halftone {
+  background-image: radial-gradient(rgba(20, 28, 44, 0.08) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+.halftone-dark {
+  background-image: radial-gradient(rgba(250, 245, 234, 0.09) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+.stripes-band {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-sun) 0 14px,
+    var(--color-ink) 14px 28px
+  );
+}
+.tag-shape {
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+}
+
+/* ---------- Motion ---------- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.09) translate(1.8%, -1.4%);
+  }
+}
+.kenburns {
+  animation: kenburns 22s ease-in-out infinite alternate;
+}
+
+@keyframes rotate360 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-slow {
+  animation: rotate360 26s linear infinite;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--float-rot, 0deg));
+  }
+  50% {
+    transform: translateY(-9px) rotate(var(--float-rot, 0deg));
+  }
+}
+.floaty {
+  animation: floaty 5.5s ease-in-out infinite;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.55);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pop-in {
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.slide-in-right {
+  animation: slide-in-right 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Scrollbars ---------- */
+.nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink) transparent;
+}
+.nice-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .kenburns,
+  .spin-slow,
+  .floaty,
+  .pop-in,
+  .slide-in-right {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
